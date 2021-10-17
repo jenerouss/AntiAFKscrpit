@@ -1,0 +1,32 @@
+import keyboard
+import random
+import datetime
+buttons = ['w','a','s','d']
+file = open('sec.txt','r')
+secs = file.read()
+file.close()
+def press(buttons):
+    print('запускаю скрипт' + '\n' + 'интервал между нажатиями: ' + secs + ' секунд')
+    a = datetime.datetime.now()
+    c = ''
+    while True:
+        if (datetime.datetime.now() - a).total_seconds() > float(secs):
+            b = random.choice(buttons)
+            while c == b:
+                b = random.choice(buttons)
+            print('прошло ' + secs + ' секунд, нажимаю клавишу ' + b)
+            keyboard.send(b)
+            a = datetime.datetime.now()
+            c = b
+        if keyboard.is_pressed('up'):
+            print('ставлю скрипт на паузу')
+            break
+        if keyboard.is_pressed('down'):
+	        print('завершаю скрипт')
+	        break
+keyboard.add_hotkey('left', lambda: press(buttons))
+print('скрипт успешно запущен' + '\n' + 'стрелка влево ← - включить скрипт' + '\n' + 'стрелка вверх ↑ - поставить скрипт на паузу' + '\n' + 'стрелка вниз ↓ - завершить скрипт' + '\n' +
+      'для настройки интервала между нажатиями, прочитайте файл readme в папке, в которую вы установили программу.' + '\n' +
+      'если вы ничего не меняли при установке программы, файл readme скорее всего находится по пути: AppData\Local\Programs\ antiafkscript' + '\n' +
+      'либо же нажмите правой кнопкной мыши по иконке AntiAfkScript на рабочем столе и нажмите "расположение файла"')
+keyboard.wait('down')
